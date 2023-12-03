@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Rosa Nunez">
+    <meta name="description" content="Rosa Nunez o Web Developer">
+    <meta name="keywords" content="web developer, web, developer, front-end,html, CSS, JavaScript">
+    <title>Scramble Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cousine:ital@0;1&family=Open+Sans&family=Poppins:wght@300;400&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="./assets/img/faviconrosa.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/style/index.css" media="all">
+    <script src="./assets/script/index.js" type="module"></script>
+</head>
+
+<body>
+    <header>
+    </header>
+    <main class="grad">
+        <div class="container">
+
+            <div class="row">
+                <button class="button-play">Next Word</button>
+            </div>
+
+            <div class="center">
+                <form class="scramble-game container-form">
+                    <h1>Word scramble Game!</h1>
+                    <h2><span id="scramble-word"> </span></h2>
+
+                    <div class="row">
+                        <h3>Hint: <span id="hint"></span></h2>
+                    </div>
+                    <div class="row">
+                        <input type="text" id="word" name="word" spellcheck="false" maxlength="10">
+                    </div>
+                    <div class="row">
+                        <h4 id="feed-back">Enter a valid word</h4>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <audio id="my-audio-win" src="./assets/audio/mixkit-casino-bling-achievement-2067.wav"></audio>
+        <audio id="my-audio-start" src="./assets/audio/mixkit-completion-of-a-level-2063.wav"></audio>
+        <audio id="my-audio-lost" src="./assets/audio/mixkit-negative-guitar-tone-2324.wav"></audio>
+    </main>
+    <footer>
+    </footer>
+</body>
+
+</html>

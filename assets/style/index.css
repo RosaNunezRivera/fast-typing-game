@@ -1,0 +1,170 @@
+@import "./reset.css";
+
+:root {
+    /*Text color*/
+    --app-dark-bg2: #1a1d28;
+    --app-dark-bg: #67686a;
+    --app-white: #fff;
+    --app-grey: #838080;
+    --app-dark-rose: #f817a2;
+
+    /*Other color for elements*/
+    --app-violet-bg: #8000ff;
+    --app-rose-bg: #ff0080;
+    --app-pink-bg: #ff00ff;
+    --app-blue-bg: #0000ff;
+    --app-yellow-bg: #ffff00;
+    --app-green-bg: #00ff00;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                    Containers                         */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+.container {
+    width: 100%;
+    height: 100vh;
+    margin-inline: auto;
+    display: flex;
+    justify-content: center;
+    background-color: var(--app-pink-bg);
+    align-items: center;
+    text-align: center;
+}
+
+.container-form {
+    width: 800px;
+    background-color: var(--app-white);
+    border-radius: 10px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.row1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 5px 5px rgba(238, 17, 164, 0.05);
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+}
+
+.row+.row {
+    margin-top: 5px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                     Main                              */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+h1 {
+    margin-top: 20px;
+    font-size: 40px;
+    text-align: center;
+    font-weight: 500;
+    padding: 10px 10px;
+    color: var(--app-rose-bg);
+}
+
+
+h2 {
+    margin-top: 20px;
+    font-size: 35px;
+    font-style: oblique;
+    text-align: center;
+    font-weight: 500;
+    padding: 10px 10px;
+    color: var(--app-dark-bg2);
+}
+
+h3,
+.feedback-message {
+    margin-top: 20px;
+    font-size: 22px;
+    text-align: center;
+    font-weight: 300;
+    padding: 10px 10px;
+    background-color: var(--app-rose-bg);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    color: var(--app-white);
+}
+
+h4 {
+    font-size: 18px;
+    text-align: center;
+    font-weight: 80;
+    padding: 10px 10px;
+    color: var(--app-rose-bg);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                   Form                                */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+input[type="text"] {
+    width: 90%;
+    /* Aling center */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* Font size & color*/
+    font-size: 18px;
+    font-weight: 200;
+    color: var(--app-dark-rose);
+    margin: 15px 15px;
+    padding: 10px 10px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--app-pink-bg);
+    background-color: var(--app-white);
+}
+
+input[type="text"]:hover {
+    border-color: var(--app-pink-bg);
+}
+
+.feedback-message {
+    color: var(--app-white);
+    display: none;
+    /* Initially, error messages are hidden */
+    background-color: var (--app-dark-rose);
+    margin-left: 25px;
+    font-size: 12px;
+}
+
+/*Buton*/
+.button-play {
+    position: absolute;
+    top: 25px;
+    left: 1300px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--app-pink-bg);
+    width: 180px;
+    height: 40px;
+    padding: 0 25px;
+    border-radius: 4px;
+    border: 1px solid var(--app-white);
+    box-shadow: rgba(0, 0, 0, .3) 0px 26px 30px -10px, rgba(0, 0, 0, .3) 0px 16px 10px -10px;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+.button-play:hover {
+    background-color: var(--app-violet-bg);
+    border: 1px solid var(--app-violet-bg);
+    color: var(--app-white);
+}
