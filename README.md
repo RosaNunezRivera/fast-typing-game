@@ -1,4 +1,4 @@
-# Game: Word Rush Game
+# Word Rush Game
 
 ## Demo
 
