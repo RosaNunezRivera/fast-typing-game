@@ -7,47 +7,105 @@
     <meta name="author" content="Rosa Nunez">
     <meta name="description" content="Rosa Nunez o Web Developer">
     <meta name="keywords" content="web developer, web, developer, front-end,html, CSS, JavaScript">
-    <title>Scramble Game</title>
+    <title>Fast-typing Game | Rosa Nunez</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cousine:ital@0;1&family=Open+Sans&family=Poppins:wght@300;400&family=Roboto:wght@400;500;700&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Electrolize&family=Luckiest+Guy&display=swap">
+
     <link rel="shortcut icon" href="./assets/img/faviconrosa.ico" type="image/x-icon">
     <link rel="stylesheet" href="./assets/style/index.css" media="all">
-    <script src="./assets/script/index.js" type="module"></script>
+    <script src="./assets/script/app.js" type="module"></script>
 </head>
 
 <body>
     <header>
     </header>
-    <main class="grad">
+    <main>
         <div class="container">
-
-            <div class="row">
-                <button class="button-play">Next Word</button>
-            </div>
-
             <div class="center">
-                <form class="scramble-game container-form">
-                    <h1>Word scramble Game!</h1>
-                    <h2><span id="scramble-word"> </span></h2>
 
-                    <div class="row">
-                        <h3>Hint: <span id="hint"></span></h2>
+                <div class="modal-start" id="modal">
+                    <div class="modal-start-content center">
+                        <div class="header-title center">
+                            <h1>Word Rush</h1>
+                            <h2>Fast typing Game!</h2>
+                            <button class="start-button">Start</button>
+                        </div>
                     </div>
-                    <div class="row">
-                        <input type="text" id="word" name="word" spellcheck="false" maxlength="10">
+                </div>
+                <div class="modal-win" id="modal">
+                    <div class="modal-win-content center">
+                        <div class="header-title center">
+                            <h5>You Win!!!</h5>
+                            <p class="lastScores"></p>
+                            <h6>Last Scores</h6>
+                            <p class="lastScores"></p>
+                            <p class="lastScores"></p>
+                            <p class="lastScores"></p>
+                            <p class="lastScores"></p>
+                            <p class="lastScores"></p>
+                            <button class="restart-win">Play Again!</button>
+                        </div>
                     </div>
-                    <div class="row">
-                        <h4 id="feed-back">Enter a valid word</h4>
+                </div>
+                <div class="modal-over" id="modal">
+                    <div class="modal-over-content center">
+                        <h5 class="game-over">Game Over!</h5>
+                        <div class="header-title center">
+                            <p><span class="performace1"></span></p>
+                            <p><span class="performace2"></span></p>
+                            <button class="restart-game-over">Play Again!</button>
+                        </div>
                     </div>
-                </form>
+                </div>
+
+                <div class="header-game">
+                    <div class="button-header">
+                        <button class="button-new-game">Restart</button>
+                    </div>
+                    <div class="header-title">
+                        <h1>Word Rush!</h1>
+                    </div>
+
+                    <div class="div-count-down">
+                        <div class="count-down">
+                            <p class="clock-display" id="seconds-display"><span id="sec">99</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="body-game">
+                    <h4>Hits: <span id="hits">0</span></h4>
+                </div>
+                <div class="div-word-to-type">
+                    <h2>Word: <span id="wordToWrite"></span></h2>
+                </div>
+
+                <div class="footer-game">
+                    <form class="container-form">
+                        <input type="text" id="user-word" name="user-word" spellcheck="false" maxlength="10"
+                            placeholder="type the word fast!" pattern="[A-Za-z]">
+                    </form>
+
+                </div>
+                <div class="footer-game">
+                    <p class="feedback"></p>
+                </div>
             </div>
-        </div>
-        <audio id="my-audio-win" src="./assets/audio/mixkit-casino-bling-achievement-2067.wav"></audio>
-        <audio id="my-audio-start" src="./assets/audio/mixkit-completion-of-a-level-2063.wav"></audio>
-        <audio id="my-audio-lost" src="./assets/audio/mixkit-negative-guitar-tone-2324.wav"></audio>
+
+            <audio id="my-audio-start" src="./assets/audio/mixkit-completion-of-a-level-2063.wav"
+                preload="auto"></audio>
+            <audio id="my-audio-lost" src="./assets/audio/mixkit-negative-guitar-tone-2324.wav" preload="auto"></audio>
+
+            <audio id="my-audio-win" src="./assets/audio/mixkit-casino-bling-achievement-2067.wav"
+                preload="auto"></audio>
+
+            <audio id="my-audio-playing" src="./assets/audio/Glacial Pools.mp3" preload="auto"></audio>
+            <audio id="my-audio-correct" src="./assets/audio/mixkit-completion-of-a-level-2063.wav"
+                preload="auto"></audio>
+
+            <audio id="audio-feedback" src="./assets/audio/getsound.mp3" preload="auto"></audio>
     </main>
     <footer>
     </footer>

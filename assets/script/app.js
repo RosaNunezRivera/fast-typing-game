@@ -1,158 +1,332 @@
 'use strict';
 
-//npm init -y
-//npm i lite-server -D  Only for development
-//npm run start
-
-import { PlayerBase, Player } from "./Player/Player.js";
+import { Score } from "./Score.js";
 
 import {
     onEvent,
     select,
     selectById,
-    selectAll,
-    print,
-    randomNumber,
-    create
-} from "./utils/utility-functions.js";
-
-//Global variables
-let msg = '';
-let correctWord = '';
-const words = [
-    {
-        word: "addition",
-        hint: "The process of adding numbers"
-    },
-    {
-        word: "meeting",
-        hint: "Event in which people come together"
-    },
-    {
-        word: "number",
-        hint: "Math symbol used for counting"
-    },
-    {
-        word: "exchange",
-        hint: "The act of trading"
-    },
-    {
-        word: "html",
-        hint: "Language to make a web page"
-    }
-];
-
-//Creating HTML elements 
-let scrambleWord = selectById("scramble-word");
-let hintText = selectById("hint");
-let wordInput = selectById("word");
-
-let buttonNextWords = select(".button-play");
-let buttonRestart = select(".button-restart");
+} from "./utils.js";
 
 
-//Creating HTML audio elements 
-let audioWin = selectById('my-audio-win');
-let audioLost = selectById('my-audio-lost');
-
-//Creating HTML elements feebback message to user
-let message = selectById('feed-back');
-
-
-
-/*--------------------------------------------------------------------------------*/
-/* Function: Star Play Button                                                      */
-/*--------------------------------------------------------------------------------*/
-onEvent('click', buttonNextWords, function () {
-    init();
-    showMessage('Enter a Valid word');
-});
-
-init();
 /*--------------------------------------------------------------------------------*/
 /* Function: Initialize the game                                                  */
 /*--------------------------------------------------------------------------------*/
-function init() {
-    let randomObj = words[Math.floor(Math.random() * words.length)];
-    let wordArray = randomObj.word.split("");
-    for (let i = wordArray.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
-    }
-    scrambleWord.textContent = wordArray.join(" ");
-    hintText.textContent = randomObj.hint;
-    correctWord = randomObj.word.toLowerCase();;
-    wordInput.value = "";
-}
+//Global variables
+const WORDS = [
+    'dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'building',
+    'population', 'weather', 'bottle', 'history', 'dream', 'character', 'money',
+    'absolute', 'discipline', 'machine', 'accurate', 'connection', 'rainbow',
+    'bicycle', 'eclipse', 'calculator', 'trouble', 'watermelon', 'developer',
+    'philosophy', 'database', 'periodic', 'capitalism', 'abominable',
+    'component', 'future', 'pasta', 'microwave', 'jungle', 'wallet', 'canada',
+    'coffee', 'beauty', 'agency', 'chocolate', 'eleven', 'technology', 'promise',
+    'alphabet', 'knowledge', 'magician', 'professor', 'triangle', 'earthquake',
+    'baseball', 'beyond', 'evolution', 'banana', 'perfume', 'computer',
+    'management', 'discovery', 'ambition', 'music', 'eagle', 'crown', 'chess',
+    'laptop', 'bedroom', 'delivery', 'enemy', 'button', 'superman', 'library',
+    'unboxing', 'bookstore', 'language', 'homework', 'fantastic', 'economy',
+    'interview', 'awesome', 'challenge', 'science', 'mystery', 'famous',
+    'league', 'memory', 'leather', 'planet', 'software', 'update', 'yellow',
+    'keyboard', 'window', 'beans', 'truck', 'sheep', 'band', 'level', 'hope',
+    'download', 'blue', 'actor', 'desk', 'watch', 'giraffe', 'brazil', 'mask',
+    'audio', 'school', 'detective', 'hero', 'progress', 'winter', 'passion',
+    'rebel', 'amber', 'jacket', 'article', 'paradox', 'social', 'resort', 'escape'
+];
+
+const arrayWords = WORDS;
+let TOTALWORDS = WORDS.length;
+let secondsCounter;
+let hitsCounter;
+let randomWord;
+
+//Creating HTML
+let wordInput = selectById("user-word");
+let userHits = selectById("hits");
+//Creating HTML Modal elements 
+const modalStart = select(".modal-start");
+const modalWin = select(".modal-win");
+const modalGameOver = select(".modal-over");
+
+const modal = selectById("modal");
+const startBtn = select(".start-button");
+const winBtn = select(".restart-win");
+const gameOverBtn = select(".restart-game-over");
+
+//Showing Start Modal 
+showModalStart();
+/*--------------------------------------------------------------------------------*/
+/* Function: Event listener to avoid reload the page                              */
+/*--------------------------------------------------------------------------------*/
+onEvent('beforeunload', window, function (e) {
+    e.returnValue = undefined;
+    e.preventDefault();
+});
+
+onEvent('unload', window, function (ev) {
+    ev.returnValue = undefined;
+    ev.preventDefault();
+});
+/*--------------------------------------------------------------------------------*/
+/* Function: Event listener Enter letters in input text                           */
+/*--------------------------------------------------------------------------------*/
+wordInput.addEventListener('input', function (e) {
+    e.preventDefault();
+    wordInput.focus();
+    checkMathWord();
+});
 
 /*--------------------------------------------------------------------------------*/
-/* Function: Playing, validating if the word is equeal to the correct word        */
+/* Function: Avoid accion when the user press enter key                           */
 /*--------------------------------------------------------------------------------*/
-function checkWord() {
-    let wrd = wordInput.value.toLowerCase();
-    if (wrd === correctWord) {
-        audioWin.play();
-        return `Congrats! ${correctWord.toUpperCase()} is the correct word`;
-    } else {
-        audioLost.play();
-        return `Oops! ${wrd} is not the correct word`;
-    }
-}
-
-/*--------------------------------------------------------------------------------*/
-/* Function: Event listener Enter a word  & validate                                               */
-/*--------------------------------------------------------------------------------*/
-wordInput.addEventListener("keydown", function (event) {
+wordInput.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
         event.preventDefault();
-
-        let isValid = validate();
-
-        if (isValid) {
-            msg = checkWord();
-            showMessage(msg);
-        }
+        wordInput.focus();
     }
 });
 
 /*--------------------------------------------------------------------------------*/
-/* Function: Validation if is a validad word (Not special characters, numbers)    */
-/* or whitespaces                                                                 */
+/* Function: Set Initial Values                                                   */
 /*--------------------------------------------------------------------------------*/
-function validate() {
-    let wrd = wordInput.value.toLowerCase();
+function setValues() {
+    secondsCounter = 15;
+    hitsCounter = 0;
+    userWon = false;
+    userHits.textContent = hitsCounter;
+}
+/*--------------------------------------------------------------------------------*/
+/* Function: Audio Elements                                                       */
+/*--------------------------------------------------------------------------------*/
+let audioplaying = selectById('my-audio-playing');
+let audioWin = selectById('my-audio-correct');
+let audioLost = selectById('my-audio-lost');
+let audioFeedBack = selectById('audio-feedback');
 
-    const letterPattern = /^[A-Za-z\s]+$/;
-
-    if (wrd.length === 0 || !letterPattern.test(wrd)) {
-        wordInput.value = '';
-        showMessage('Try! Enter a word!')
-        audioLost.play();
-        return false;
-    } else {
-        return true;
-    }
+function playSound() {
+    audioplaying.volume = 0.5;
+    audioplaying.play();
 }
 
-/*--------------------------------------------------------------------------------*/
-/* Function: Print message                                                        */
-/*--------------------------------------------------------------------------------*/
-function showMessage(msg) {
-    message.textContent = msg;
-    message.style.display = 'block';
-}
-
-
-// Function to play the audio - word is correct 
 function playSoundWin() {
     audioWin.play();
 }
 
-// Function to play the audio - word is not correct 
 function playSoundLost() {
+    audioLost.volume = 0.5;
     audioLost.play();
 }
 
+function playSoundFeedBack() {
+    audioFeedBack.volume = 0.5;
+    audioFeedBack.play();
+}
+
+function stopSound() {
+    audioplaying.pause();
+    audioplaying.currentTime = 0; // Reset the audio to the beginning
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Event listener Enter letters in input text                           */
+/*--------------------------------------------------------------------------------*/
+function getRandomWord() {
+    //Getting a randow word
+    randomWord = arrayWords[Math.floor(Math.random() * arrayWords.length)];
+    wordToWrite.textContent = randomWord;
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Printing feedback                                                    */
+/*--------------------------------------------------------------------------------*/
+let feedback = select('.feedback');
+//Getting nullish coalescing operators !Amazing
+const ratings = {
+    5: 'Great, keep typing!',
+    10: 'ohh, so fast!',
+    40: 'Great',
+    60: 'Excelent!',
+    80: 'Amazing!',
+    100: 'Wonderfull!'
+};
+function printfeedback() {
+    feedback.textContent = (ratings[hitsCounter] ?? "");
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Checking if userWord is the same                                     */
+/*--------------------------------------------------------------------------------*/
+function checkMathWord() {
+    let cleanWord = wordInput.value.trim().toLowerCase();
+    if (cleanWord.length >= 3 && cleanWord === randomWord) {
+        playSoundFeedBack();
+        hitsCounter++;
+        printfeedback()
+        nextWord();
+        userHits.textContent = hitsCounter;
+        wordInput.value = '';
+    }
+}
+/*--------------------------------------------------------------------------------*/
+/* Function: Delete the word of the array and get other random word               */
+/*--------------------------------------------------------------------------------*/
+function nextWord() {
+    //Getting the index of the randomWord to splice of the array
+    let deleteWordIndex = arrayWords.indexOf(randomWord);
+    arrayWords.splice(deleteWordIndex, 1)
+    if (arrayWords.length > 0) {
+        getRandomWord();
+    }
+    else {
+        userWon = true;
+        winGame();
+    }
+}
+/*--------------------------------------------------------------------------------*/
+/* Function: Display the count down timer                                         */
+/*--------------------------------------------------------------------------------*/
+let userWon = false;
+const secondsDisplay = selectById('sec');
+function timer() {
+    playSound();
+    function updateCountdown() {
+        // Stop the down count if us 0
+        if (secondsCounter <= 0 && !userWon) {
+            clearInterval(countdownInterval);
+            gameOver();
+        } else {
+            secondsCounter--;
+            secondsDisplay.textContent = secondsCounter;
+        }
+    }
+    const countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Event Listener Buton Restar Game                                     */
+/*--------------------------------------------------------------------------------*/
+let buttonNewPlay = select(".button-new-game");
+onEvent('click', buttonNewPlay, function (e) {
+    stopSound();
+    e.preventDefault();
+    startGame();
+});
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Start a Game  (set values and timer)                                                        */
+/*--------------------------------------------------------------------------------*/
+function startGame() {
+    //reStarButton.display = "block";
+    setValues();
+    wordInput.value = '';
+    timer();
+    getRandomWord();
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Win Game                                                             */
+/*--------------------------------------------------------------------------------*/
+function winGame() {
+    stopSound();
+    playSoundWin();
+    showModalWin();
+    saveScore();
+    printingScore();
+    setValues();
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Game Over                                                            */
+/*--------------------------------------------------------------------------------*/
+function gameOver() {
+    stopSound();
+    playSoundLost();
+    showModalGameOver();
+    saveScore();
+    printingScore();
+    setValues();
+}
 
 
+/*--------------------------------------------------------------------------------*/
+/* Function: Show Modal                                                          */
+/*--------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------*/
+/* Function: Start-Button even listener                                            */
+/*--------------------------------------------------------------------------------*/
+onEvent('click', startBtn, function (e) {
+    e.preventDefault();
+    closeModal();
+    startGame();
+});
 
+onEvent('click', winBtn, function (e) {
+    e.preventDefault();
+    closeModal();
+    startGame();
+});
+
+onEvent('click', gameOverBtn, function (e) {
+    e.preventDefault();
+    closeModal();
+    startGame();
+});
+
+function closeModal() {
+    modal.style.display = 'none';
+    modalStart.style.display = 'none';
+    modalWin.style.display = 'none';
+    modalGameOver.style.display = 'none';
+}
+
+function showModalStart() {
+    modalWin.style.display = 'none';
+    modalGameOver.style.display = 'none';
+    modalStart.style.display = 'block';
+}
+
+function showModalWin() {
+    modalWin.style.display = 'block';
+    modalGameOver.style.display = 'none';
+    modalStart.style.display = 'none';
+}
+
+function showModalGameOver() {
+    modalGameOver.style.display = 'block';
+    modalStart.style.display = 'none';
+    modalWin.style.display = 'none';
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Save Score                                                           */
+/*--------------------------------------------------------------------------------*/
+const score1 = new Score();
+function saveScore() {
+    const now = new Date();
+    score1.date = now;
+    score1.hits = hitsCounter
+    score1.average = hitsCounter / TOTALWORDS * 100;
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Printing Performance                                                 */
+/*--------------------------------------------------------------------------------*/
+let performance1 = select(".performance");
+let performance2 = select(".performance");
+function printingScore() {
+    performance2.textContent = score1.getInfo();
+}
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Printing SCORE                                                       */
+/*--------------------------------------------------------------------------------*/
+function formatdate(fecha) {
+    const year = fecha.getFullYear();
+    const month = String(fecha.getMonth() + 1).padStart(2, '0'); //  
+    const day = String(fecha.getDate()).padStart(2, '0');
+    const hours = String(fecha.getHours()).padStart(2, '0');
+    const minutes = String(fecha.getMinutes()).padStart(2, '0');
+    const seconds = String(fecha.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
