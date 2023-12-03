@@ -1,4 +1,4 @@
-# Game: Fast-typing game
+# Game: Word Rush Game
 
 ## Demo
 

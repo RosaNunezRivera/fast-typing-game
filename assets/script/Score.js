@@ -37,9 +37,9 @@ class Score {
     }
 
     getInfo() {
-        return `Date: ${this.#date} | Hits: ${this.#hits} | Average: ${this.#percentage}`;
+        return `Date: ${this.#date} | Hits: ${this.#hits} | Average: ${this.#percentage.toFixed(2)}%`;
     }
-}
+} 
 
 //Export functions
 export { Score };

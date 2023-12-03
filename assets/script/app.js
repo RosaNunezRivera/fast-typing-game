@@ -90,7 +90,7 @@ wordInput.addEventListener('keydown', function (event) {
 /* Function: Set Initial Values                                                   */
 /*--------------------------------------------------------------------------------*/
 function setValues() {
-    secondsCounter = 15;
+    secondsCounter = 99;
     hitsCounter = 0;
     userWon = false;
     userHits.textContent = hitsCounter;
@@ -224,13 +224,27 @@ function startGame() {
 }
 
 /*--------------------------------------------------------------------------------*/
+/* Create a new Object                                                            */
+/*--------------------------------------------------------------------------------*/
+const now = new Date();
+let ave = 0;
+if (hitsCounter >= 1) {
+    ave = hitsCounter / TOTALWORDS * 100
+}
+const score1 = new Score();
+
+/*--------------------------------------------------------------------------------*/
 /* Function: Win Game                                                             */
 /*--------------------------------------------------------------------------------*/
 function winGame() {
     stopSound();
     playSoundWin();
     showModalWin();
-    saveScore();
+    /*Saving a new object*/
+    score1.date = formatdate(now);
+    score1.hits = hitsCounter;
+    score1.percentage = ave;
+
     printingScore();
     setValues();
 }
@@ -242,11 +256,14 @@ function gameOver() {
     stopSound();
     playSoundLost();
     showModalGameOver();
-    saveScore();
+    /*Saving a new object*/
+    score1.date = formatdate(now);
+    score1.hits = hitsCounter;
+    score1.percentage = ave;
+
     printingScore();
     setValues();
 }
-
 
 /*--------------------------------------------------------------------------------*/
 /* Function: Show Modal                                                          */
@@ -297,22 +314,11 @@ function showModalGameOver() {
     modalWin.style.display = 'none';
 }
 
-/*--------------------------------------------------------------------------------*/
-/* Function: Save Score                                                           */
-/*--------------------------------------------------------------------------------*/
-const score1 = new Score();
-function saveScore() {
-    const now = new Date();
-    score1.date = now;
-    score1.hits = hitsCounter
-    score1.average = hitsCounter / TOTALWORDS * 100;
-}
 
 /*--------------------------------------------------------------------------------*/
 /* Function: Printing Performance                                                 */
 /*--------------------------------------------------------------------------------*/
-let performance1 = select(".performance");
-let performance2 = select(".performance");
+const performance2 = select(".performance2");
 function printingScore() {
     performance2.textContent = score1.getInfo();
 }
@@ -321,12 +327,16 @@ function printingScore() {
 /* Function: Printing SCORE                                                       */
 /*--------------------------------------------------------------------------------*/
 function formatdate(fecha) {
-    const year = fecha.getFullYear();
-    const month = String(fecha.getMonth() + 1).padStart(2, '0'); //  
-    const day = String(fecha.getDate()).padStart(2, '0');
-    const hours = String(fecha.getHours()).padStart(2, '0');
-    const minutes = String(fecha.getMinutes()).padStart(2, '0');
-    const seconds = String(fecha.getSeconds()).padStart(2, '0');
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZoneName: 'short'
+    };
 
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return fecha.toLocaleString('en-US', options);
 }

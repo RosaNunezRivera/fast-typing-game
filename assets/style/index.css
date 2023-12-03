@@ -7,7 +7,6 @@
     --app-white: #fff;
     --app-grey: #838080;
     --app-dark-rose: #f817a2;
-
     /*Other color for elements*/
     --app-violet-bg: #8000ff;
     --app-rose-bg: #ff0080;
@@ -17,18 +16,6 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*                    Containers                         */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-/*
-.container {
-    margin-inline: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    opacity: 5;
-    background: #030303 url(../img/back-leves.jpeg) center / cover no-repeat fixed;
-    background-color: var(--app-violet-bg);
-}*/
 
 .container {
     background-image: url('../img/back-niveles-bajos.jpeg');
@@ -215,8 +202,6 @@ h4 {
     background-color: var(--app-violet-bg);
 }
 
-/*.word-to-type {}*/
-
 .footer-game {
     margin-top: 40px;
     display: flex;
@@ -234,7 +219,6 @@ h4 {
     align-items: center;
     text-align: center;
     justify-content: center;
-    outline: 2px dashed rgb(205, 33, 148);
 }
 
 
@@ -276,7 +260,7 @@ input[type="text"] {
     align-items: center;
     text-align: center;
     /* Font size & color*/
-    font-size: 58px;
+    font-size: 60px;
     font-weight: 400;
     color: var(--app-dark-rose);
     margin: 15px 15px;
@@ -410,7 +394,6 @@ h3 {
     height: 100%;
     color: var(--app-lessdark-bg);
     border-radius: 6px;
-    outline: 2px dashed rgb(205, 33, 148);
 }
 
 .start-button {
@@ -465,10 +448,7 @@ h3 {
 }
 
 /*Title*/
-.game-over {
-    position: absolute;
-    top: 13%;
-    left: 35%;
+.h5 {
     font-size: 80px;
     font-weight: 500;
     justify-content: center;
@@ -477,28 +457,31 @@ h3 {
     color: var(--app-white);
 }
 
-span .performance1 {
-    position: absolute;
-    top: 6%;
-    left: 35%;
+.performance1 {
     font-size: 28px;
     color: white;
     color: var(--app-violet-bg);
 }
 
-span .performance2 {
-    position: absolute;
-    top: 8%;
-    left: 35%;
+.performance1 span {
+    font-weight: bold;
+    color: white;
+}
+
+.performance2 {
+    font-size: 36px;
+    color: white;
+    color: var(--app-violet-bg);
+    background-color: #fff;
+}
+
+.performance2 span {
     font-size: 28px;
     color: white;
     color: var(--app-violet-bg);
 }
 
 .restart-game-over {
-    position: absolute;
-    top: 67%;
-    left: 43%;
     font-size: 32px;
     font-weight: 600;
     color: var(--app-pink-bg);
