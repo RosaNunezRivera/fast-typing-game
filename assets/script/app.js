@@ -163,7 +163,7 @@ function getRandomWord() {
 /*--------------------------------------------------------------------------------*/
 /* Function: Printing feedback                                                    */
 /*--------------------------------------------------------------------------------*/
-let feedback = select('.feedback');
+const feedback = select('.feedback');
 //Getting nullish coalescing operators !Amazing
 const ratings = {
     5: 'Great, keep typing!',
@@ -257,7 +257,7 @@ function startGame() {
 /*--------------------------------------------------------------------------------*/
 /* Function: Event Listener Buton Restar Game in any moment                       */
 /*--------------------------------------------------------------------------------*/
-let buttonNewPlay = select(".button-new-game");
+const buttonNewPlay = select(".button-new-game");
 onEvent('click', buttonNewPlay, function (e) {
     stopPlaySound();
     e.preventDefault();
