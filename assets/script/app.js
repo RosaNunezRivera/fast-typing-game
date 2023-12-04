@@ -143,6 +143,14 @@ function playSoundFeedBack() {
     audioFeedBack.play();
 }
 
+function stopSoundFeedBack() {
+    if (!audioFeedBack.paused) {
+        audioFeedBack.pause();
+        audioFeedBack.currentTime = 0;
+    }
+}
+
+
 /*--------------------------------------------------------------------------------*/
 /* Function: Event listener Enter letters in input text                           */
 /*--------------------------------------------------------------------------------*/
@@ -176,6 +184,7 @@ function printfeedback() {
 function checkMathWord() {
     let cleanWord = wordInput.value.trim().toLowerCase();
     if (cleanWord.length >= 3 && cleanWord === randomWord) {
+        stopSoundFeedBack();
         playSoundFeedBack();
         hitsCounter++;
         printfeedback()
