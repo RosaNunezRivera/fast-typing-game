@@ -274,6 +274,7 @@ input[type="text"] {
 
 input[type="text"]::placeholder {
     border-color: var(--app-rose-bg);
+    font-size: 50px;
 }
 
 input[type="text"]:focus {
@@ -458,9 +459,15 @@ h3 {
 }
 
 .performance1 {
+    font-size: 36px;
+    color: var(--app-white);
+}
+
+.performance2 {
     font-size: 28px;
-    color: white;
     color: var(--app-violet-bg);
+    border-radius: 6px;
+    background-color: #fff;
 }
 
 .performance1 span {
@@ -468,18 +475,35 @@ h3 {
     color: white;
 }
 
-.performance2 {
-    font-size: 36px;
+
+.performance2 span {
+    font-weight: bold;
     color: white;
+}
+
+.performance3 {
+    font-size: 36px;
+    color: var(--app-white);
+}
+
+.performance4 {
+    font-size: 36px;
     color: var(--app-violet-bg);
+    border-radius: 6px;
     background-color: #fff;
 }
 
-.performance2 span {
+.performance3 span {
+    font-size: 28px;
+    color: var(--app-violet-bg);
+}
+
+.performance4 span {
     font-size: 28px;
     color: white;
     color: var(--app-violet-bg);
 }
+
 
 .restart-game-over {
     font-size: 32px;

@@ -21,7 +21,7 @@ class Score {
     }
 
     set percentage(percentage) {
-        this.#percentage = percentage;
+        this.#percentage = percentage.toFixed(2);
     }
 
     get date() {
@@ -33,13 +33,13 @@ class Score {
     }
 
     get percentage() {
-        return this.#percentage;
+        return this.#percentage.toFixed(2);
     }
 
     getInfo() {
-        return `Date: ${this.#date} | Hits: ${this.#hits} | Average: ${this.#percentage.toFixed(2)}%`;
+        return `Date: ${this.#date} | Hits: ${this.#hits} | Average: ${this.#percentage}%`;
     }
-} 
+}
 
 //Export functions
 export { Score };

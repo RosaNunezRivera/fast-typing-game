@@ -13,6 +13,7 @@ import {
 /* Function: Initialize the game                                                  */
 /*--------------------------------------------------------------------------------*/
 //Global variables
+
 const WORDS = [
     'dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'building',
     'population', 'weather', 'bottle', 'history', 'dream', 'character', 'money',
@@ -34,27 +35,48 @@ const WORDS = [
     'rebel', 'amber', 'jacket', 'article', 'paradox', 'social', 'resort', 'escape'
 ];
 
-const arrayWords = WORDS;
+let arrayWords = WORDS;
 let TOTALWORDS = WORDS.length;
 let secondsCounter;
 let hitsCounter;
 let randomWord;
+let ave;
+const now = new Date();
 
 //Creating HTML
-let wordInput = selectById("user-word");
-let userHits = selectById("hits");
+const wordInput = selectById("user-word");
+const userHits = selectById("hits");
+
 //Creating HTML Modal elements 
 const modalStart = select(".modal-start");
 const modalWin = select(".modal-win");
 const modalGameOver = select(".modal-over");
-
 const modal = selectById("modal");
-const startBtn = select(".start-button");
-const winBtn = select(".restart-win");
-const gameOverBtn = select(".restart-game-over");
 
-//Showing Start Modal 
+//Creating HTML bottons
+const startBtn = select(".start-button");
+
+//Creating audio elements
+const soundBgMusic = new Audio('./assets/audio/background.mp3');
+const soundStartGame = new Audio('./assets/audio/startgame.wav');
+const audioFeedBack = new Audio('./assets/audio/getsound.mp3');
+const soundWin = new Audio('./assets/audio/startgame.wav');
+const soundGameOver = new Audio('./assets/audio/gameOver.wav');
+
+//Showing Start Modal && Play StartGame Sound
 showModalStart();
+/*--------------------------------------------------------------------------------*/
+/* Function: Set Initial Values                                                   */
+/*--------------------------------------------------------------------------------*/
+function setValues() {
+    secondsCounter = 99;
+    hitsCounter = 0;
+    ave = 0;
+    userWon = false;
+    arrayWords = [...WORDS];
+    userHits.textContent = hitsCounter;
+}
+
 /*--------------------------------------------------------------------------------*/
 /* Function: Event listener to avoid reload the page                              */
 /*--------------------------------------------------------------------------------*/
@@ -87,44 +109,38 @@ wordInput.addEventListener('keydown', function (event) {
 });
 
 /*--------------------------------------------------------------------------------*/
-/* Function: Set Initial Values                                                   */
-/*--------------------------------------------------------------------------------*/
-function setValues() {
-    secondsCounter = 99;
-    hitsCounter = 0;
-    userWon = false;
-    userHits.textContent = hitsCounter;
-}
-/*--------------------------------------------------------------------------------*/
 /* Function: Audio Elements                                                       */
 /*--------------------------------------------------------------------------------*/
-let audioplaying = selectById('my-audio-playing');
-let audioWin = selectById('my-audio-correct');
-let audioLost = selectById('my-audio-lost');
-let audioFeedBack = selectById('audio-feedback');
-
 function playSound() {
-    audioplaying.volume = 0.5;
-    audioplaying.play();
+    soundBgMusic.volume = 0.5;
+    soundBgMusic.play();
 }
 
-function playSoundWin() {
-    audioWin.play();
+function stopPlaySound() {
+    if (!soundBgMusic.paused) {
+        soundBgMusic.pause();
+        soundBgMusic.currentTime = 0;
+    }
 }
 
-function playSoundLost() {
-    audioLost.volume = 0.5;
-    audioLost.play();
+function playStartGame() {
+    soundStartGame.volume = 0.5;
+    soundStartGame.play();
+}
+
+function playWin() {
+    soundWin.volume = 0.5;
+    soundWin.play();
+}
+
+function playGameOver() {
+    soundGameOver.volume = 0.5;
+    soundGameOver.play();
 }
 
 function playSoundFeedBack() {
     audioFeedBack.volume = 0.5;
     audioFeedBack.play();
-}
-
-function stopSound() {
-    audioplaying.pause();
-    audioplaying.currentTime = 0; // Reset the audio to the beginning
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -149,6 +165,7 @@ const ratings = {
     80: 'Amazing!',
     100: 'Wonderfull!'
 };
+
 function printfeedback() {
     feedback.textContent = (ratings[hitsCounter] ?? "");
 }
@@ -185,30 +202,34 @@ function nextWord() {
 /*--------------------------------------------------------------------------------*/
 /* Function: Display the count down timer                                         */
 /*--------------------------------------------------------------------------------*/
+let countdownInterval;
 let userWon = false;
 const secondsDisplay = selectById('sec');
 function timer() {
-    playSound();
     function updateCountdown() {
         // Stop the down count if us 0
-        if (secondsCounter <= 0 && !userWon) {
-            clearInterval(countdownInterval);
-            gameOver();
-        } else {
+        console.log(secondsCounter);
+        if (secondsCounter > 0 && !userWon) {
             secondsCounter--;
             secondsDisplay.textContent = secondsCounter;
+        } else {
+            clearInterval(countdownInterval);
+            console.log('Parando el temporizador' + clearInterval(countdownInterval));
+            gameOver();
         }
     }
-    const countdownInterval = setInterval(updateCountdown, 1000);
+    console.log(`Seconds counter antes de empezar: ${secondsCounter}`);
+    console.log(`Before starting timer: ${secondsDisplay.textContent}`);
+    countdownInterval = setInterval(updateCountdown, 1000);
 }
 
 /*--------------------------------------------------------------------------------*/
-/* Function: Event Listener Buton Restar Game                                     */
+/* Function: Start-Button even listener in Start Modal                                           */
 /*--------------------------------------------------------------------------------*/
-let buttonNewPlay = select(".button-new-game");
-onEvent('click', buttonNewPlay, function (e) {
-    stopSound();
+onEvent('click', startBtn, function (e) {
     e.preventDefault();
+    clearInterval(countdownInterval);
+    closeModal();
     startGame();
 });
 
@@ -216,66 +237,85 @@ onEvent('click', buttonNewPlay, function (e) {
 /* Function: Start a Game  (set values and timer)                                                        */
 /*--------------------------------------------------------------------------------*/
 function startGame() {
-    //reStarButton.display = "block";
     setValues();
     wordInput.value = '';
+    clearInterval(countdownInterval);
+    playSound();
     timer();
     getRandomWord();
 }
 
 /*--------------------------------------------------------------------------------*/
-/* Create a new Object                                                            */
+/* Function: Event Listener Buton Restar Game in any moment                       */
 /*--------------------------------------------------------------------------------*/
-const now = new Date();
-let ave = 0;
-if (hitsCounter >= 1) {
-    ave = hitsCounter / TOTALWORDS * 100
+let buttonNewPlay = select(".button-new-game");
+onEvent('click', buttonNewPlay, function (e) {
+    stopPlaySound();
+    e.preventDefault();
+    playStartGame();
+    startGame();
+});
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Average                                                              */
+/*--------------------------------------------------------------------------------*/
+function average() {
+    ave = hitsCounter / TOTALWORDS * 100;
+    return ave;
 }
 const score1 = new Score();
-
 /*--------------------------------------------------------------------------------*/
 /* Function: Win Game                                                             */
 /*--------------------------------------------------------------------------------*/
 function winGame() {
-    stopSound();
-    playSoundWin();
+    clearInterval(countdownInterval);
+    stopPlaySound();
+    playWin();
     showModalWin();
     /*Saving a new object*/
+    console.log('hits' + hitsCounter);
+    console.log('average' + ave);
     score1.date = formatdate(now);
     score1.hits = hitsCounter;
-    score1.percentage = ave;
-
-    printingScore();
-    setValues();
+    score1.percentage = average();
+    /*Printing performance*/
+    printingScoreWin();
 }
 
 /*--------------------------------------------------------------------------------*/
 /* Function: Game Over                                                            */
 /*--------------------------------------------------------------------------------*/
 function gameOver() {
-    stopSound();
-    playSoundLost();
+    clearInterval(countdownInterval);
+    stopPlaySound();
+    playGameOver();
     showModalGameOver();
     /*Saving a new object*/
     score1.date = formatdate(now);
     score1.hits = hitsCounter;
-    score1.percentage = ave;
-
-    printingScore();
-    setValues();
+    score1.percentage = average();
+    /*Printing performance*/
+    printScoreOver();
 }
 
 /*--------------------------------------------------------------------------------*/
+/* Function: Printing Performance                                                 */
+/*--------------------------------------------------------------------------------*/
+const performanceWin = selectById("perfor-win");
+const performanceOver = selectById("perfor-gover");
+
+function printingScoreWin() {
+    performanceWin.textContent = score1.getInfo();
+}
+
+function printScoreOver() {
+    performanceOver.textContent = score1.getInfo();
+}
+/*--------------------------------------------------------------------------------*/
 /* Function: Show Modal                                                          */
 /*--------------------------------------------------------------------------------*/
-/*--------------------------------------------------------------------------------*/
-/* Function: Start-Button even listener                                            */
-/*--------------------------------------------------------------------------------*/
-onEvent('click', startBtn, function (e) {
-    e.preventDefault();
-    closeModal();
-    startGame();
-});
+const winBtn = select(".restart-win");
+const gameOverBtn = select(".restart-game-over");
 
 onEvent('click', winBtn, function (e) {
     e.preventDefault();
@@ -288,6 +328,7 @@ onEvent('click', gameOverBtn, function (e) {
     closeModal();
     startGame();
 });
+
 
 function closeModal() {
     modal.style.display = 'none';
@@ -312,15 +353,6 @@ function showModalGameOver() {
     modalGameOver.style.display = 'block';
     modalStart.style.display = 'none';
     modalWin.style.display = 'none';
-}
-
-
-/*--------------------------------------------------------------------------------*/
-/* Function: Printing Performance                                                 */
-/*--------------------------------------------------------------------------------*/
-const performance2 = select(".performance2");
-function printingScore() {
-    performance2.textContent = score1.getInfo();
 }
 
 /*--------------------------------------------------------------------------------*/
