@@ -8,12 +8,19 @@ import {
     selectById,
 } from "./utils.js";
 
+/* To do list
+Local storage 
+Score board 
+npm init -y
+npm i lite-server -D (aka --save-dev)
+        + Add a script to your package.json
+        + npm run start
+*/
 
 /*--------------------------------------------------------------------------------*/
 /* Function: Initialize the game                                                  */
 /*--------------------------------------------------------------------------------*/
-//Global variables
-
+//Const Global variables
 const WORDS = [
     'dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'building',
     'population', 'weather', 'bottle', 'history', 'dream', 'character', 'money',
@@ -35,13 +42,15 @@ const WORDS = [
     'rebel', 'amber', 'jacket', 'article', 'paradox', 'social', 'resort', 'escape'
 ];
 
+const TOTALWORDS = WORDS.length;
+const now = new Date();
+
+//Other Global variables
 let arrayWords = WORDS;
-let TOTALWORDS = WORDS.length;
 let secondsCounter;
 let hitsCounter;
 let randomWord;
 let ave;
-const now = new Date();
 
 //Creating HTML
 const wordInput = selectById("user-word");
@@ -49,12 +58,12 @@ const userHits = selectById("hits");
 
 //Creating HTML Modal elements 
 const modalStart = select(".modal-start");
+//Creating HTML bottons
+const startBtn = select(".start-button");
+
 const modalWin = select(".modal-win");
 const modalGameOver = select(".modal-over");
 const modal = selectById("modal");
-
-//Creating HTML bottons
-const startBtn = select(".start-button");
 
 //Creating audio elements
 const soundBgMusic = new Audio('./assets/audio/background.mp3');
@@ -75,6 +84,7 @@ function setValues() {
     userWon = false;
     arrayWords = [...WORDS];
     userHits.textContent = hitsCounter;
+    wordInput.value = '';
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -89,6 +99,7 @@ onEvent('unload', window, function (ev) {
     ev.returnValue = undefined;
     ev.preventDefault();
 });
+
 /*--------------------------------------------------------------------------------*/
 /* Function: Event listener Enter letters in input text                           */
 /*--------------------------------------------------------------------------------*/
@@ -97,6 +108,24 @@ wordInput.addEventListener('input', function (e) {
     wordInput.focus();
     checkMathWord();
 });
+
+wordInput.addEventListener('keyup', (e) => {
+    e.preventDefault();
+    if (wordInput.validity.valid) {
+        errorMessage.innerHTML = '';
+    } else {
+        showtyping();
+    }
+});
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Show word typing                                                     */
+/*--------------------------------------------------------------------------------*/
+function showtyping() {
+    if (wordInput.validity.patternmismatch) {
+        wordToWrite.textContent = wordInput.value;
+    }
+}
 
 /*--------------------------------------------------------------------------------*/
 /* Function: Avoid accion when the user press enter key                           */
@@ -150,7 +179,6 @@ function stopSoundFeedBack() {
     }
 }
 
-
 /*--------------------------------------------------------------------------------*/
 /* Function: Event listener Enter letters in input text                           */
 /*--------------------------------------------------------------------------------*/
@@ -164,14 +192,18 @@ function getRandomWord() {
 /* Function: Printing feedback                                                    */
 /*--------------------------------------------------------------------------------*/
 const feedback = select('.feedback');
-//Getting nullish coalescing operators !Amazing
+//Getting nullish coalescing operators !Amazin
 const ratings = {
-    5: 'Great, keep typing!',
-    10: 'ohh, so fast!',
-    40: 'Great',
-    60: 'Excelent!',
-    80: 'Amazing!',
-    100: 'Wonderfull!'
+    3: 'Rapid reflexes! You are a typing wizard!',
+    5: 'Lightning speed! You are unstoppable!',
+    10: 'Blitzing through! You are on fire!',
+    35: 'Hyperspeed accuracy! You are unbeatable!',
+    45: 'Turbo-typist! Incredibly fast!',
+    60: 'Warp speed! You are a typing maestro!',
+    80: 'Sonic typing! Unbelievably quick!',
+    100: 'Flash typing! You are breaking records!',
+    110: 'Swift as the wind! Youa are a keyboard ninja!',
+    120: 'Rocket fingers! You are typing at Word Rush Game!'
 };
 
 function printfeedback() {
@@ -187,9 +219,9 @@ function checkMathWord() {
         stopSoundFeedBack();
         playSoundFeedBack();
         hitsCounter++;
+        userHits.textContent = hitsCounter;
         printfeedback()
         nextWord();
-        userHits.textContent = hitsCounter;
         wordInput.value = '';
     }
 }
@@ -216,19 +248,15 @@ let userWon = false;
 const secondsDisplay = selectById('sec');
 function timer() {
     function updateCountdown() {
-        // Stop the down count if us 0
-        console.log(secondsCounter);
+        // Stop the countdown if us 0
         if (secondsCounter > 0 && !userWon) {
-            secondsCounter--;
             secondsDisplay.textContent = secondsCounter;
+            secondsCounter--;
         } else {
             clearInterval(countdownInterval);
-            console.log('Parando el temporizador' + clearInterval(countdownInterval));
             gameOver();
         }
     }
-    console.log(`Seconds counter antes de empezar: ${secondsCounter}`);
-    console.log(`Before starting timer: ${secondsDisplay.textContent}`);
     countdownInterval = setInterval(updateCountdown, 1000);
 }
 
@@ -257,7 +285,7 @@ function startGame() {
 /*--------------------------------------------------------------------------------*/
 /* Function: Event Listener Buton Restar Game in any moment                       */
 /*--------------------------------------------------------------------------------*/
-const buttonNewPlay = select(".button-new-game");
+let buttonNewPlay = select(".button-new-game");
 onEvent('click', buttonNewPlay, function (e) {
     stopPlaySound();
     e.preventDefault();

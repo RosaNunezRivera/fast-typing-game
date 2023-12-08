@@ -24,12 +24,11 @@
     <main>
         <div class="container">
             <div class="center">
-
                 <div class="modal-start" id="modal">
                     <div class="modal-start-content center">
                         <div class="header-title center">
                             <h1>Word Rush</h1>
-                            <h2>Fast typing Game!</h2>
+                            <h2 class="sub-title">Fast typing Game!</h2>
                             <button class="start-button">Start</button>
                         </div>
                     </div>
@@ -54,7 +53,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="header-game">
                     <div class="button-header">
                         <button class="button-new-game">Restart</button>
@@ -64,25 +62,20 @@
                     </div>
 
                     <div class="div-count-down">
-                        <div class="count-down">
-                            <p class="clock-display" id="seconds-display"><span id="sec">99</span></p>
-                        </div>
+                        <p class="clock-display" id="seconds-display"><span id="sec">99</span></p>
                     </div>
                 </div>
-
                 <div class="body-game">
                     <h4>Hits: <span id="hits">0</span></h4>
                 </div>
                 <div class="div-word-to-type">
-                    <h2>Word: <span id="wordToWrite"></span></h2>
+                    <h2><span id="wordToWrite"></span></h2>
                 </div>
-
                 <div class="footer-game">
-                    <form class="container-form">
+                    <form>
                         <input type="text" id="user-word" name="user-word" spellcheck="false" maxlength="10"
                             placeholder="type the word fast!" pattern="[A-Za-z]">
                     </form>
-
                 </div>
                 <div class="footer-game">
                     <p class="feedback"></p>

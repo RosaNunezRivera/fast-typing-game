@@ -8,6 +8,7 @@
     --app-grey: #838080;
     --app-dark-rose: #f817a2;
     /*Other color for elements*/
+    --app-violet-bg2: #18022e;
     --app-violet-bg: #8000ff;
     --app-rose-bg: #ff0080;
     --app-pink-bg: #ff00ff;
@@ -20,16 +21,15 @@
 .container {
     background-image: url('../img/back-niveles-bajos.jpeg');
     background-blend-mode: hard-light;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     background-size: cover;
     background-position: center;
+    overflow: hidden;
     width: 100%;
     height: 100dvh;
 }
 
 .center {
-    width: 100%;
-    height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -37,47 +37,42 @@
     text-align: center;
 }
 
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                    Header Game                        */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 .header-game {
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 200px;
-    color: var(--app-ligh-text);
     display: flex;
     justify-content: space-around;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 150px;
+    color: var(--app-ligh-text);
 }
 
 .button-header {
-    align-items: center;
     flex: 1;
 }
 
 .header-title {
-    text-align: center;
     flex: 2;
-    gap: 20px;
 }
 
 .div-count-down {
-    text-align: center;
-    justify-content: center;
-    text-align: center;
     flex: 1;
 }
 
-.div-count-down .count-down {
-    text-align: center;
-    justify-content: center;
-    text-align: center;
-}
-
-/*Button to restar the game from the main page*/
+/*   Button Restart Game  in the page to play*/
 .button-new-game {
     font-size: 36px;
     font-weight: 600;
     color: var(--app-violet-bg);
-    width: 240px;
+    width: 200px;
     height: 60px;
     padding: 0 25px;
     border-radius: 6px;
@@ -93,10 +88,26 @@
     color: var(--app-white);
 }
 
+
 h1 {
-    font-size: 80px;
     text-align: center;
+    font-size: 60px;
     font-weight: 700;
+    color: var(--app-white);
+}
+
+#seconds-display {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 130px;
+    height: 130px;
+    background-color: var(--app-violet-bg);
+    padding: 20px 10px;
+    border-radius: 50%;
+    font-size: 55px;
+    font-weight: 400;
     color: var(--app-white);
 }
 
@@ -111,38 +122,9 @@ h5 {
 }
 
 
-/*------------------------------------------------------------*/
-/*                  Show Timer                                */
-/*------------------------------------------------------------*/
-.count-down {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-    text-align: center;
-    background-color: var(--app-violet-bg);
-    width: 130px;
-    height: 130px;
-    padding: 20px 10px;
-    border-radius: 50%;
-}
-
-#seconds-display {
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    color: var(--app-white);
-}
-
-#sec {
-    font-size: 55px;
-    font-weight: 400;
-    background-color: var(--app-violet-bg);
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
-
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                   Body Game                           */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 .body-game {
     display: flex;
     flex-direction: column;
@@ -150,110 +132,80 @@ h5 {
     text-align: center;
     justify-content: center;
     width: 100%;
-    height: 200px;
-    gap: 10px;
+    height: 80px;
 }
 
-.hits {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 22px;
-    text-align: center;
-    font-weight: 300;
-    color: var(--app-white);
-}
-
-
-h2 {
-    font-size: 60px;
-    text-align: center;
-    color: var(--app-white);
-    padding: 5px 5px;
-    margin-top: 60px;
-    margin-bottom: 60px;
-    border-radius: 6px;
-}
-
+/*Hits*/
 h4 {
-    margin-top: 20px;
-    width: 220px;
-    font-size: 45px;
+    margin: 20px 0x 20px 0px;
+    width: 195px;
+    font-size: 40px;
     text-align: center;
     border-radius: 6px;
     font-weight: 300;
     color: var(--app-white);
-    padding: 10px 15px;
     background-color: var(--app-rose-bg);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                    Body game                          */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 .div-word-to-type {
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
-    height: max-content;
-    width: max-content;
-    height: 60px;
-    border-radius: 6px;
+    margin: 20px 0x 20px 0px;
+    width: 100%;
+    height: 200px;
 }
 
 .div-word-to-type h2 {
-    background-color: var(--app-violet-bg);
+    width: 100%;
+    color: var(--app-violet-bg);
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+    font-size: 90px;
+    font-weight: 600;
+    user-select: none;
 }
 
+.div-word-to-type .texting {
+    outline: 2px dashed rgb(205, 33, 148);
+    width: 100%;
+    color: var(--app-white);
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+    font-size: 90px;
+    font-weight: 600;
+    user-select: none;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                  Footer game                          */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 .footer-game {
-    margin-top: 40px;
+    margin: 20px 0x 20px 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     justify-content: center;
     width: 100%;
-    height: 150px;
-}
-
-.word-to-type {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-}
-
-
-.container-form {
-    margin-top: 20px;
-    background-color: var(--app-white);
-    border-radius: 6px;
-    width: 30%;
-    height: max-content;
-    border-radius: 6px;
-}
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-/*                     Main                              */
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-.header-game h2 {
-    color: var(--app-violet-bg);
-    font-size: 35px;
-    text-align: center;
-    font-weight: 500;
-}
-
-h3 {
-    font-size: 50px;
-    text-align: center;
-    font-weight: 500;
-    padding: 10px 10px;
-    color: var(--app-white);
+    height: 100px;
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*                   Form                                */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+form {
+    width: 500px;
+}
+
 input[type="text"] {
-    width: 90%;
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     /* Aling center */
     justify-content: center;
@@ -263,18 +215,15 @@ input[type="text"] {
     font-size: 60px;
     font-weight: 400;
     color: var(--app-dark-rose);
-    margin: 15px 15px;
-    padding: 10px 10px;
-    border: 2px solid #000;
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--app-pink-bg);
+    padding: 5px 10px 5px 10px;
+    border: 2px solid var(--app-dark-rose);
+    border-radius: 8px;
     background-color: var(--app-white);
 }
 
 input[type="text"]::placeholder {
-    border-color: var(--app-rose-bg);
     font-size: 50px;
+    color: var(--app-dark-rose);
 }
 
 input[type="text"]:focus {
@@ -304,7 +253,7 @@ h3 {
     text-align: center;
     background-image: url('../img/background2.jpeg');
     background-blend-mode: hard-light;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     background-size: cover;
     background-position: center;
     transition: all 0.5s ease;
@@ -318,7 +267,7 @@ h3 {
     align-items: center;
     text-align: center;
     background-color: var(--app-pink-bg);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     width: 100%;
     height: 100%;
     color: var(--app-lessdark-bg);
@@ -340,7 +289,7 @@ h3 {
     text-align: center;
     background-image: url('../img/back.jpeg');
     background-blend-mode: hard-light;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     background-size: cover;
     background-position: center;
     transition: all 0.5s ease;
@@ -354,7 +303,7 @@ h3 {
     align-items: center;
     text-align: center;
     background-color: var(--app-pink-bg);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     width: 100%;
     height: 100%;
     color: var(--app-lessdark-bg);
@@ -376,7 +325,7 @@ h3 {
     text-align: center;
     background-image: url('../img/background.jpeg');
     background-blend-mode: hard-light;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     background-size: cover;
     background-position: center;
     transition: all 0.5s ease;
@@ -390,7 +339,7 @@ h3 {
     align-items: center;
     text-align: center;
     background-color: var(--app-pink-bg);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
     width: 100%;
     height: 100%;
     color: var(--app-lessdark-bg);
@@ -398,6 +347,7 @@ h3 {
 }
 
 .start-button {
+    margin-top: 30px;
     font-size: 32px;
     font-weight: 600;
     color: var(--app-pink-bg);
@@ -406,7 +356,7 @@ h3 {
     padding: 0 25px;
     border-radius: 6px;
     border: 1px solid var(--app-white);
-    box-shadow: rgba(0, 0, 0, .3) 0px 26px 30px -10px, rgba(0, 0, 0, .3) 0px 16px 10px -10px;
+    box-shadow: rgba(0, 0, 0, .6) 0px 26px 30px -10px, rgba(0, 0, 0, .3) 0px 16px 10px -10px;
     transition: all 0.25s ease-in-out;
     cursor: pointer;
 }
@@ -418,6 +368,7 @@ h3 {
 }
 
 .restart-win {
+    margin-top: 30px;
     font-size: 32px;
     font-weight: 600;
     color: var(--app-pink-bg);
@@ -426,7 +377,7 @@ h3 {
     padding: 0 25px;
     border-radius: 6px;
     border: 1px solid var(--app-white);
-    box-shadow: rgba(0, 0, 0, .3) 0px 26px 30px -10px, rgba(0, 0, 0, .3) 0px 16px 10px -10px;
+    box-shadow: rgba(0, 0, 0, .6) 0px 26px 30px -10px, rgba(0, 0, 0, .3) 0px 16px 10px -10px;
     transition: all 0.25s ease-in-out;
     cursor: pointer;
 }
@@ -441,10 +392,8 @@ h3 {
     position: relative;
     top: 0%;
     left: 0%;
-    /*outline: 2px dashed rgb(205, 33, 148);*/
-    line-height: 46px;
-    color: var(--app-rose-bg);
-    background-color: rgba(0, 0, 0, 0.4);
+    line-height: 40px;
+    color: var(--app-white);
     font-size: 28px;
 }
 
@@ -465,9 +414,8 @@ h3 {
 
 .performance2 {
     font-size: 28px;
-    color: var(--app-violet-bg);
+    color: var(--app-pink-bg);
     border-radius: 6px;
-    background-color: #fff;
 }
 
 .performance1 span {
@@ -475,8 +423,9 @@ h3 {
     color: white;
 }
 
-
 .performance2 span {
+    margin-top: 30px;
+    margin-bottom: 30px;
     font-weight: bold;
     color: white;
 }
@@ -487,10 +436,11 @@ h3 {
 }
 
 .performance4 {
+    margin-top: 30px;
+    margin-bottom: 30px;
     font-size: 36px;
-    color: var(--app-violet-bg);
+    color: var(--app-pink-bg);
     border-radius: 6px;
-    background-color: #fff;
 }
 
 .performance3 span {
@@ -503,7 +453,6 @@ h3 {
     color: white;
     color: var(--app-violet-bg);
 }
-
 
 .restart-game-over {
     font-size: 32px;
@@ -522,5 +471,11 @@ h3 {
 .restart-game-over:hover {
     background-color: var(--app-rose-bg);
     border: 1px solid var(--app-rose-bg);
+    color: var(--app-white);
+}
+
+.sub-title {
+    margin-top: 30px;
+    margin-bottom: 30px;
     color: var(--app-white);
 }
