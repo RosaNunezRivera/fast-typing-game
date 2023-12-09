@@ -26,30 +26,30 @@
             <div class="center">
                 <div class="modal-start" id="modal">
                     <div class="modal-start-content center">
-                        <div class="header-title center">
-                            <h1>Word Rush</h1>
-                            <h2 class="sub-title">Fast typing Game!</h2>
+                        <h1>Word Rush</h1>
+                        <h2 class="sub-title">Fast typing Game!</h2>
+                        <div class="buttons">
                             <button class="start-button">Start</button>
+                            <button class="btn-dialog" data-modal-target="myModal">Score Board</button>
                         </div>
                     </div>
+
                 </div>
                 <div class="modal-win" id="modal">
                     <div class="modal-win-content center">
-                        <div class="header-title center">
-                            <h5>You Win!!!</h5>
-                            <p class="performance1">Performance: <span></span></p>
-                            <p class="performance2" id="perfor-win"><span></span></p>
+                        <h5>You Win!!!</h5>
+                        <div class="buttons">
                             <button class="restart-win">Play Again!</button>
+                            <button class="btn-dialog" data-modal-target="myModal">Score Board</button>
                         </div>
                     </div>
                 </div>
-                <div class="modal-over" id="modal">
+                <div class="modal-over center" id="modal">
                     <div class="modal-over-content center">
-                        <div class="header-title center">
-                            <h5 class="game-over">Game Over!</h5>
-                            <p class="performance3">Performance: <span></span></p>
-                            <p class="performance4" id="perfor-gover"><span></span></p>
+                        <h5 class="game-over">Game Over!</h5>
+                        <div class="buttons">
                             <button class="restart-game-over">Play Again!</button>
+                            <button class="btn-dialog" data-modal-target="myModal">Score Board</button>
                         </div>
                     </div>
                 </div>
@@ -81,6 +81,14 @@
                     <p class="feedback"></p>
                 </div>
             </div>
+            <dialog id="myModal">
+                <div class="list" id="grid">
+                </div>
+                <div class="row-close">
+                    <span class="close-modal-dialog">Close</span>
+                </div>
+
+            </dialog>
     </main>
     <footer>
     </footer>

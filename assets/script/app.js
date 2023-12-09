@@ -1,21 +1,11 @@
 'use strict';
 
-import { Score } from "./Score.js";
-
 import {
     onEvent,
     select,
     selectById,
+    selectAll,
 } from "./utils.js";
-
-/* To do list
-Local storage 
-Score board 
-npm init -y
-npm i lite-server -D (aka --save-dev)
-        + Add a script to your package.json
-        + npm run start
-*/
 
 /*--------------------------------------------------------------------------------*/
 /* Function: Initialize the game                                                  */
@@ -43,10 +33,11 @@ const WORDS = [
 ];
 
 const TOTALWORDS = WORDS.length;
-const now = new Date();
 
 //Other Global variables
-let arrayWords = WORDS;
+let arrayWords;
+let userWon;
+let countdownInterval;
 let secondsCounter;
 let hitsCounter;
 let randomWord;
@@ -72,8 +63,7 @@ const audioFeedBack = new Audio('./assets/audio/getsound.mp3');
 const soundWin = new Audio('./assets/audio/startgame.wav');
 const soundGameOver = new Audio('./assets/audio/gameOver.wav');
 
-//Showing Start Modal && Play StartGame Sound
-showModalStart();
+
 /*--------------------------------------------------------------------------------*/
 /* Function: Set Initial Values                                                   */
 /*--------------------------------------------------------------------------------*/
@@ -87,17 +77,23 @@ function setValues() {
     wordInput.value = '';
 }
 
+//Loading the game the first time
+showModalStart();
+setValues();
+
 /*--------------------------------------------------------------------------------*/
 /* Function: Event listener to avoid reload the page                              */
 /*--------------------------------------------------------------------------------*/
 onEvent('beforeunload', window, function (e) {
     e.returnValue = undefined;
     e.preventDefault();
+    wordInput.focus();
 });
 
-onEvent('unload', window, function (ev) {
+onEvent('load', window, function (ev) {
     ev.returnValue = undefined;
     ev.preventDefault();
+    wordInput.focus();
 });
 
 /*--------------------------------------------------------------------------------*/
@@ -108,24 +104,6 @@ wordInput.addEventListener('input', function (e) {
     wordInput.focus();
     checkMathWord();
 });
-
-wordInput.addEventListener('keyup', (e) => {
-    e.preventDefault();
-    if (wordInput.validity.valid) {
-        errorMessage.innerHTML = '';
-    } else {
-        showtyping();
-    }
-});
-
-/*--------------------------------------------------------------------------------*/
-/* Function: Show word typing                                                     */
-/*--------------------------------------------------------------------------------*/
-function showtyping() {
-    if (wordInput.validity.patternmismatch) {
-        wordToWrite.textContent = wordInput.value;
-    }
-}
 
 /*--------------------------------------------------------------------------------*/
 /* Function: Avoid accion when the user press enter key                           */
@@ -192,6 +170,7 @@ function getRandomWord() {
 /* Function: Printing feedback                                                    */
 /*--------------------------------------------------------------------------------*/
 const feedback = select('.feedback');
+feedback.textContent = "";
 //Getting nullish coalescing operators !Amazin
 const ratings = {
     3: 'Rapid reflexes! You are a typing wizard!',
@@ -243,8 +222,6 @@ function nextWord() {
 /*--------------------------------------------------------------------------------*/
 /* Function: Display the count down timer                                         */
 /*--------------------------------------------------------------------------------*/
-let countdownInterval;
-let userWon = false;
 const secondsDisplay = selectById('sec');
 function timer() {
     function updateCountdown() {
@@ -285,7 +262,7 @@ function startGame() {
 /*--------------------------------------------------------------------------------*/
 /* Function: Event Listener Buton Restar Game in any moment                       */
 /*--------------------------------------------------------------------------------*/
-let buttonNewPlay = select(".button-new-game");
+const buttonNewPlay = select(".button-new-game");
 onEvent('click', buttonNewPlay, function (e) {
     stopPlaySound();
     e.preventDefault();
@@ -300,7 +277,7 @@ function average() {
     ave = hitsCounter / TOTALWORDS * 100;
     return ave;
 }
-const score1 = new Score();
+
 /*--------------------------------------------------------------------------------*/
 /* Function: Win Game                                                             */
 /*--------------------------------------------------------------------------------*/
@@ -310,13 +287,7 @@ function winGame() {
     playWin();
     showModalWin();
     /*Saving a new object*/
-    console.log('hits' + hitsCounter);
-    console.log('average' + ave);
-    score1.date = formatdate(now);
-    score1.hits = hitsCounter;
-    score1.percentage = average();
-    /*Printing performance*/
-    printingScoreWin();
+    saveScore();
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -328,26 +299,9 @@ function gameOver() {
     playGameOver();
     showModalGameOver();
     /*Saving a new object*/
-    score1.date = formatdate(now);
-    score1.hits = hitsCounter;
-    score1.percentage = average();
-    /*Printing performance*/
-    printScoreOver();
+    saveScore();
 }
 
-/*--------------------------------------------------------------------------------*/
-/* Function: Printing Performance                                                 */
-/*--------------------------------------------------------------------------------*/
-const performanceWin = selectById("perfor-win");
-const performanceOver = selectById("perfor-gover");
-
-function printingScoreWin() {
-    performanceWin.textContent = score1.getInfo();
-}
-
-function printScoreOver() {
-    performanceOver.textContent = score1.getInfo();
-}
 /*--------------------------------------------------------------------------------*/
 /* Function: Show Modal                                                          */
 /*--------------------------------------------------------------------------------*/
@@ -365,7 +319,6 @@ onEvent('click', gameOverBtn, function (e) {
     closeModal();
     startGame();
 });
-
 
 function closeModal() {
     modal.style.display = 'none';
@@ -401,11 +354,113 @@ function formatdate(fecha) {
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-        timeZoneName: 'short'
+        minute: '2-digit'
     };
 
     return fecha.toLocaleString('en-US', options);
+}
+
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Dialog                                                               */
+/*--------------------------------------------------------------------------------*/
+const btnDialogs = document.querySelectorAll('.btn-dialog');
+const dialog = select('dialog');
+const closeModalButtons = document.querySelectorAll('.close-modal-dialog');
+
+btnDialogs.forEach(btnDialog => {
+    btnDialog.addEventListener('click', () => {
+        const modalId = btnDialog.getAttribute('data-modal-target');
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.showModal();
+            printScore();
+        }
+    });
+});
+
+
+closeModalButtons.forEach(closeModalButton => {
+    closeModalButton.addEventListener('click', () => {
+        const modals = document.querySelectorAll('dialog');
+        modals.forEach(modal => modal.close());
+    });
+});
+
+dialog.addEventListener('click', function (e) {
+    const rect = this.getBoundingClientRect();
+    if (e.clientY < rect.top || e.clientY > rect.bottom ||
+        e.clientX < rect.left || e.clientX > rect.right) {
+        dialog.close();
+    }
+})
+
+/*--------------------------------------------------------------------------------*/
+/* Function: Create normal object Scores                                          */
+/*--------------------------------------------------------------------------------*/
+function saveScore() {
+    //Get the actual score in localStorage 
+    let boardScore = [];
+    if (localStorage.length > 0) {
+        boardScore = JSON.parse(localStorage.getItem('boardScore'));
+    }
+    //Add the user's score that is playing 
+    const score = {
+        date: formatdate(new Date()),
+        hits: hitsCounter,
+        percentage: ave
+    };
+    //Add the new use's score to the array 
+    boardScore.push(score);
+    const arraySorted = getSortArray(boardScore);
+    //Set new Score in Local Storage
+    localStorage.setItem('boardScore', JSON.stringify(arraySorted));
+}
+
+function getSortArray(arr) {
+    arr.sort((a, b) => {
+        // Comparing by hits 
+        if (b.hits !== a.hits) {
+            return b.hits - a.hits;
+        }
+        // Comparing by dates if the hits are the same 
+        return new Date(a.date) - new Date(b.date);
+    });
+
+    //Deleting the elements from the 10 forward 
+    arr.splice(9);
+    return arr;
+}
+/*-------------------------------------------------------*/
+/*  Function: Get List of Scores                        */
+/*-------------------------------------------------------*/
+const gridContainer = select('.list');
+function printScore() {
+    gridContainer.innerHTML = '';
+    const scoreArray = JSON.parse(localStorage.getItem('boardScore'));
+    let rows = scoreArray.length + 1;
+
+    //Setting rows
+    gridContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+    //Adding the tittle 
+    const scoreItem = document.createElement("p");
+    scoreItem.classList.add('title-score-board');
+    scoreItem.innerHTML = "Hight Scores";
+    gridContainer.appendChild(scoreItem);
+
+    //Adding the scores 
+    if (scoreArray.length > 0) {
+        for (let i = 0; i < scoreArray.length; i++) {
+            const scoreItem = document.createElement("p");
+            scoreItem.classList.add('score-info');
+            scoreItem.innerHTML = `${(i + 1).toString().padStart(2, '0')} | ${scoreArray[i].date} | ${scoreArray[i].hits}`;
+            gridContainer.appendChild(scoreItem);
+        }
+    } else {
+        const scoreItem = document.createElement("p");
+        scoreItem.classList.add('score-info');
+        scoreItem.innerHTML = `The game has not been played`;
+        gridContainer.appendChild(scoreItem);
+    }
 }

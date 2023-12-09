@@ -6,10 +6,12 @@
     --app-dark-bg: #67686a;
     --app-white: #fff;
     --app-grey: #838080;
+    --app-hover-btn: #e7b3d3;
     --app-dark-rose: #f817a2;
     /*Other color for elements*/
     --app-violet-bg2: #18022e;
     --app-violet-bg: #8000ff;
+    --app-violet-btn: #c192f0;
     --app-rose-bg: #ff0080;
     --app-pink-bg: #ff00ff;
 }
@@ -72,7 +74,7 @@
     font-size: 36px;
     font-weight: 600;
     color: var(--app-violet-bg);
-    width: 200px;
+    width: 225px;
     height: 60px;
     padding: 0 25px;
     border-radius: 6px;
@@ -83,8 +85,8 @@
 }
 
 .button-new-game:hover {
-    background-color: var(--app-violet-bg);
-    border: 1px solid var(--app-violet-bg);
+    background-color: var(--app-hover-btn);
+    border: 1px solid var(--app-hover-btn);
     color: var(--app-white);
 }
 
@@ -164,17 +166,6 @@ h4 {
 .div-word-to-type h2 {
     width: 100%;
     color: var(--app-violet-bg);
-    letter-spacing: 2px;
-    font-size: 1.5rem;
-    font-size: 90px;
-    font-weight: 600;
-    user-select: none;
-}
-
-.div-word-to-type .texting {
-    outline: 2px dashed rgb(205, 33, 148);
-    width: 100%;
-    color: var(--app-white);
     letter-spacing: 2px;
     font-size: 1.5rem;
     font-size: 90px;
@@ -325,9 +316,9 @@ h3 {
     text-align: center;
     background-image: url('../img/background.jpeg');
     background-blend-mode: hard-light;
-    background-color: rgba(0, 0, 0, 0.6);
     background-size: cover;
     background-position: center;
+    background-color: rgba(0, 0, 0, 0.6);
     transition: all 0.5s ease;
     z-index: 1;
 }
@@ -347,12 +338,12 @@ h3 {
 }
 
 .start-button {
-    margin-top: 30px;
     font-size: 32px;
     font-weight: 600;
     color: var(--app-pink-bg);
-    width: 200px;
+    width: 225px;
     height: 60px;
+    margin-right: 90px;
     padding: 0 25px;
     border-radius: 6px;
     border: 1px solid var(--app-white);
@@ -362,18 +353,18 @@ h3 {
 }
 
 .start-button:hover {
-    background-color: var(--app-rose-bg);
-    border: 1px solid var(--app-rose-bg);
+    background-color: var(--app-hover-btn);
+    border: 1px solid var(--app-hover-btn);
     color: var(--app-white);
 }
 
 .restart-win {
-    margin-top: 30px;
     font-size: 32px;
     font-weight: 600;
     color: var(--app-pink-bg);
-    width: 220px;
+    width: 225px;
     height: 60px;
+    margin-right: 90px;
     padding: 0 25px;
     border-radius: 6px;
     border: 1px solid var(--app-white);
@@ -383,8 +374,8 @@ h3 {
 }
 
 .restart-win:hover {
-    background-color: var(--app-rose-bg);
-    border: 1px solid var(--app-rose-bg);
+    background-color: var(--app-hover-btn);
+    border: 1px solid var(--app-hover-btn);
     color: var(--app-white);
 }
 
@@ -458,8 +449,9 @@ h3 {
     font-size: 32px;
     font-weight: 600;
     color: var(--app-pink-bg);
-    width: 220px;
+    width: 250px;
     height: 60px;
+    margin-right: 90px;
     padding: 0 25px;
     border-radius: 6px;
     border: 1px solid var(--app-white);
@@ -469,8 +461,8 @@ h3 {
 }
 
 .restart-game-over:hover {
-    background-color: var(--app-rose-bg);
-    border: 1px solid var(--app-rose-bg);
+    background-color: var(--app-hover-btn);
+    border: 1px solid var(--app-hover-btn);
     color: var(--app-white);
 }
 
@@ -478,4 +470,125 @@ h3 {
     margin-top: 30px;
     margin-bottom: 30px;
     color: var(--app-white);
+}
+
+.buttons {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.modal-start-content,
+.modal-win-content,
+.modal-over-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/*------------------------------------------------------------*/
+/*                         Dialog                             */
+/*------------------------------------------------------------*/
+.btn-dialog {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--app-white);
+    width: 250px;
+    height: 60px;
+    padding: 0 25px;
+    border-radius: 6px;
+    background-color: var(--app-violet-btn);
+    border: 1px solid var(--app-violet-btn);
+    box-shadow: rgba(0, 0, 0, .3) 0px 26px 30px -10px, rgba(0, 0, 0, .3) 0px 16px 10px -10px;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+.btn-dialog:hover {
+    background-color: var(--app-hover-btn);
+    border: 1px solid var(--app-hover-btn);
+    color: var(--app-white);
+}
+
+dialog {
+    margin: auto;
+    width: 450px;
+    height: max-content;
+    padding: 19px 25px 24px 25px;
+    border-style: none;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgb(0 0 0 / 0.2);
+    animation: 0.25s linear anim;
+}
+
+dialog::backdrop {
+    background-color: rgb(25, 24, 36 / 0.2);
+    backdrop-filter: blur(5px);
+}
+
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    justify-content: center;
+    place-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.title-score-board {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    align-items: center;
+    justify-content: center;
+    color: var(--app-pink-bg)
+}
+
+.score-info {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 50;
+    line-height: 1.8;
+}
+
+.close-modal-dialog {
+    margin-top: 20px;
+    size: 40px;
+    font-weight: 700px;
+    color: blueviolet;
+    cursor: pointer;
+}
+
+.row-close {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    place-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.close-modal-dia:hover {
+    text-decoration: underline;
+}
+
+@keyframes anim {
+    from {
+        opacity: 0;
+        translate: 0 -6px;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
 }
