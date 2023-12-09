@@ -536,7 +536,6 @@ dialog::backdrop {
 .list {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(9, 1fr);
     justify-content: center;
     place-items: center;
     gap: 10px;
@@ -554,6 +553,7 @@ dialog::backdrop {
 }
 
 .score-info {
+    color: var(--app-pink-bg);
     margin-top: 10px;
     font-size: 20px;
     font-weight: 50;

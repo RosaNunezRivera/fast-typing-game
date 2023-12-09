@@ -7,6 +7,7 @@ import {
     selectAll,
 } from "./utils.js";
 
+
 /*--------------------------------------------------------------------------------*/
 /* Function: Initialize the game                                                  */
 /*--------------------------------------------------------------------------------*/
@@ -401,9 +402,7 @@ dialog.addEventListener('click', function (e) {
 function saveScore() {
     //Get the actual score in localStorage 
     let boardScore = [];
-    if (localStorage.length > 0) {
-        boardScore = JSON.parse(localStorage.getItem('boardScore'));
-    }
+    boardScore = JSON.parse(localStorage.getItem('boardScore')) || [];
     //Add the user's score that is playing 
     const score = {
         date: formatdate(new Date()),
@@ -437,27 +436,32 @@ function getSortArray(arr) {
 const gridContainer = select('.list');
 function printScore() {
     gridContainer.innerHTML = '';
-    const scoreArray = JSON.parse(localStorage.getItem('boardScore'));
-    let rows = scoreArray.length + 1;
+    let rows = 1;
+    const storedBoardScore = localStorage.getItem('boardScore');
 
-    //Setting rows
-    gridContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    if (storedBoardScore !== null && storedBoardScore !== undefined) {
+        const scoreArray = JSON.parse(storedBoardScore);
+        rows = scoreArray.length;
 
-    //Adding the tittle 
-    const scoreItem = document.createElement("p");
-    scoreItem.classList.add('title-score-board');
-    scoreItem.innerHTML = "Hight Scores";
-    gridContainer.appendChild(scoreItem);
+        // Setting rows
+        gridContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
-    //Adding the scores 
-    if (scoreArray.length > 0) {
-        for (let i = 0; i < scoreArray.length; i++) {
+        // Adding the scores 
+        if (scoreArray.length > 0) {
+            for (let i = 0; i < scoreArray.length; i++) {
+                const scoreItem = document.createElement("p");
+                scoreItem.classList.add('score-info');
+                scoreItem.innerHTML = `${(i + 1).toString().padStart(2, '0')} | ${scoreArray[i].date} | ${scoreArray[i].hits}`;
+                gridContainer.appendChild(scoreItem);
+            }
+        } else {
             const scoreItem = document.createElement("p");
             scoreItem.classList.add('score-info');
-            scoreItem.innerHTML = `${(i + 1).toString().padStart(2, '0')} | ${scoreArray[i].date} | ${scoreArray[i].hits}`;
+            scoreItem.innerHTML = `The game has not been played`;
             gridContainer.appendChild(scoreItem);
         }
-    } else {
+    }
+    else {
         const scoreItem = document.createElement("p");
         scoreItem.classList.add('score-info');
         scoreItem.innerHTML = `The game has not been played`;
